@@ -9,16 +9,25 @@ import random
 import tkinter as tk
 import string
 
-# grouping all lowercase, uppercase, digits, and only certain special characters
-characters = string.ascii_lowercase + string.ascii_uppercase + string.digits + "!@#$%^&*"
-
 # PASSWORD GENERATION FUNCTION
 
 def generate_password():
     # password length is the user input on the length slider
     length = length_slider.get()
-    # the password gets the range of length variable and randomises it using random.choice
-    password = "".join(random.choice(characters) for character in range(length))
+    # using the random.choice() function to make a list of each type of character (randomised), to ensure a random of each type of character is in the password
+    each_character = [random.choice(string.ascii_lowercase),
+                random.choice(string.ascii_uppercase),
+                random.choice(string.digits),
+                random.choice("!@#$%^&*")]
+    combined_password = each_character
+    # filling the rest of the password
+    fill_characters = string.ascii_lowercase + string.ascii_uppercase + string.digits + "!@#$%^&*"
+    for _ in range(length - 4):
+        combined_password.append(random.choice(fill_characters))
+    # shuffling this for balance
+    random.shuffle(combined_password)
+    # returning the list as a single string
+    password = "".join(combined_password)
     # producing the result_label widget
     result_label.config(text=password)
     copy_button.config(text="copy me")
